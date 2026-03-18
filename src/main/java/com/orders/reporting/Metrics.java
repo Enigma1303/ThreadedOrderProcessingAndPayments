@@ -17,12 +17,14 @@ public class Metrics {
     private final AtomicInteger paymentFailures  = new AtomicInteger(0);
     private final AtomicInteger stockFailures    = new AtomicInteger(0);
 
-    public void recordSuccess() {
+    public void recordSuccess()
+    {
         totalProcessed.incrementAndGet();
         successfulOrders.incrementAndGet();
     }
 
-    public void recordPaymentFailure() {
+    public void recordPaymentFailure()
+    {
         totalProcessed.incrementAndGet();
         failedOrders.incrementAndGet();
         paymentFailures.incrementAndGet();
