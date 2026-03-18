@@ -1,6 +1,13 @@
+/Applications/order-processing/src/main/java/com/orders/Main.java
 /Applications/order-processing/src/main/java/com/orders/config/SystemConfig.java
+/Applications/order-processing/src/main/java/com/orders/consumer/OrderConsumer.java
+/Applications/order-processing/src/main/java/com/orders/consumer/OrderProcessor.java
 /Applications/order-processing/src/main/java/com/orders/db/DatabaseManager.java
 /Applications/order-processing/src/main/java/com/orders/inventory/InventoryManager.java
 /Applications/order-processing/src/main/java/com/orders/model/LoadType.java
 /Applications/order-processing/src/main/java/com/orders/model/Order.java
 /Applications/order-processing/src/main/java/com/orders/payment/PaymentService.java
+/Applications/order-processing/src/main/java/com/orders/producer/OrderProducer.java
+/Applications/order-processing/src/main/java/com/orders/reporting/Metrics.java
+/Applications/order-processing/src/main/java/com/orders/reporting/ReportingService.java
+/Applications/order-processing/src/main/java/com/orders/simulation/SnapshotScheduler.java
