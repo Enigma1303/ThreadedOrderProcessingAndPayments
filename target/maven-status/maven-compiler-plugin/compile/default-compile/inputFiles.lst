@@ -1,0 +1,6 @@
+/Applications/order-processing/src/main/java/com/orders/config/SystemConfig.java
+/Applications/order-processing/src/main/java/com/orders/db/DatabaseManager.java
+/Applications/order-processing/src/main/java/com/orders/inventory/InventoryManager.java
+/Applications/order-processing/src/main/java/com/orders/model/LoadType.java
+/Applications/order-processing/src/main/java/com/orders/model/Order.java
+/Applications/order-processing/src/main/java/com/orders/payment/PaymentService.java

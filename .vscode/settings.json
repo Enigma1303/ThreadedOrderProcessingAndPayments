@@ -1,0 +1,6 @@
+{
+    "java.project.sourcePaths": ["src/main/java"],
+    "java.project.outputPath": "target/classes",
+    "java.jdt.ls.java.home": "/opt/homebrew/Cellar/openjdk@21/21.0.10/libexec/openjdk.jdk/Contents/Home",
+    "java.configuration.updateBuildConfiguration": "interactive"
+}
