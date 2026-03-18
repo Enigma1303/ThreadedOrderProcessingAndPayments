@@ -9,21 +9,6 @@ A multi-threaded e-commerce backend simulation built in Java, demonstrating conc
 - MySQL 8.0 (Docker)
 - SLF4J + Logback
 
-## Project Structure
-```
-src/main/java/com/orders/
-├── model/          Order.java, LoadType.java
-├── config/         SystemConfig.java
-├── db/             DatabaseManager.java
-├── inventory/      InventoryManager.java
-├── payment/        PaymentService.java
-├── producer/       OrderProducer.java
-├── consumer/       OrderConsumer.java, OrderProcessor.java
-├── reporting/      Metrics.java, ReportingService.java
-├── simulation/     SnapshotScheduler.java
-├── deadlock/       DeadlockDemo.java
-└── Main.java
-```
 
 ## Prerequisites
 
