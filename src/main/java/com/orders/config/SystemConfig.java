@@ -4,7 +4,7 @@ import com.orders.model.LoadType;
 
 public class SystemConfig {
 
-    public static final int QUEUE_CAPACITY = 1000;
+    public static final int QUEUE_CAPACITY = 500;
 
     public static final int WORKER_THREADS = 8;
 
@@ -14,7 +14,7 @@ public class SystemConfig {
 
     public static final int SNAPSHOT_INTERVAL_SECONDS = 60;
 
-    public static final int REPORT_INTERVAL_SECONDS = 5;
+    public static final int REPORT_INTERVAL_SECONDS = 3;
 
     public static final int RUN_DURATION_SECONDS = 30;
 
@@ -25,7 +25,7 @@ public class SystemConfig {
         {
             case HIGH:  return new LoadProfile(8,  10,  0);
             case BURST: return new LoadProfile(3, 100, 50);
-            default:    return new LoadProfile(3, 100,  0);
+            default:    return new LoadProfile(3, 2000,  0);
         }
     }
 
