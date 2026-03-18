@@ -125,4 +125,8 @@ public class InventoryManager {
     private ReentrantLock getLock(String productId) {
         return productLocks.computeIfAbsent(productId, k -> new ReentrantLock());
     }
+
+    public ReentrantLock getLockForDemo(String productId) {
+    return getLock(productId);
+}
 }

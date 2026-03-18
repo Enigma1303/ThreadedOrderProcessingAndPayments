@@ -3,6 +3,7 @@ package com.orders;
 import com.orders.config.SystemConfig;
 import com.orders.consumer.OrderConsumer;
 import com.orders.db.DatabaseManager;
+import com.orders.deadlock.DeadlockDemo;
 import com.orders.inventory.InventoryManager;
 import com.orders.model.LoadType;
 import com.orders.model.Order;
@@ -31,18 +32,28 @@ public class Main {
 
         SystemConfig.LoadProfile profile = SystemConfig.getProfile(loadType);
 
-        log.info("==============================================");
-        log.info("  Order Processing System Starting");
+       
+        log.info("  THE ORDER PROCESSING SYSTEM IS STARTING");
         log.info("  Load Type  : {}", loadType);
         log.info("  Producers  : {}", profile.producerCount);
         log.info("  Delay      : {}ms", profile.delayMs);
         log.info("  Burst Size : {}", profile.burstSize);
-        log.info("==============================================");
+        
 
         DatabaseManager  db  = DatabaseManager.getInstance();
         InventoryManager inv = new InventoryManager(db);
         PaymentService   pay = new PaymentService();
-
+         
+        System.out.println("\n-- Running Deadlock Simulation");
+        try
+      {
+       DeadlockDemo.demonstratePrevention(inv);
+      } 
+      catch (InterruptedException e)
+      {
+       Thread.currentThread().interrupt();
+      }
+      System.out.println("Deadlock Demo Finished\n");
         SnapshotScheduler snapshot  = new SnapshotScheduler(inv);
         ReportingService  reporting = new ReportingService(inv);
 
@@ -84,23 +95,23 @@ public class Main {
             t.start();
             producerThreads.add(t);
         }
-        log.info("System running for {} seconds...",
+        log.info("System running for {} seconds",
                 SystemConfig.RUN_DURATION_SECONDS);
 
         Thread.sleep(TimeUnit.SECONDS.toMillis(
                 SystemConfig.RUN_DURATION_SECONDS));
 
-        log.info("Shutting down producers...");
+        log.info("Shutting down producers");
         producersRunning.set(false);
         for (Thread t : producerThreads) {
             t.join(2000);
         }
 
-        log.info("Shutting down consumer...");
+        log.info("Shutting down consumer");
         queue.offer(OrderConsumer.POISON_PILL);
         consumerThread.join(5000);
 
-        log.info("Waiting for workers to finish...");
+        log.info("Waiting for workers to finish");
         workerPool.shutdown();
         workerPool.awaitTermination(10, TimeUnit.SECONDS);
 
