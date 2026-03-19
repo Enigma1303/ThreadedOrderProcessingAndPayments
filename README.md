@@ -66,7 +66,9 @@ The script automatically resets the database before each run.
 Producers → BlockingQueue → Consumer → ExecutorService → OrderProcessor
 ```
 
-Multiple producer threads generate orders and push them into a shared `LinkedBlockingQueue`. A single consumer thread drains the queue and submits each order to a fixed thread pool for concurrent processing.
+.Multiple producer threads generate orders into a shared `LinkedBlockingQueue`. 
+A pool of consumer threads (default: 3) drains the queue and submits each 
+order to a fixed thread pool for concurrent processing.
 
 ### Order Processing Flow
 ```

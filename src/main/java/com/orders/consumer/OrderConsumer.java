@@ -16,19 +16,21 @@ public class OrderConsumer implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(OrderConsumer.class);
     public static final Order POISON_PILL = new Order("__POISON__", 0);
 
+    private final String               consumerId;
     private final BlockingQueue<Order> queue;
     private final ExecutorService      workerPool;
     private final PaymentService       paymentService;
     private final InventoryManager     inventoryManager;
     private final DatabaseManager      db;
-
     private volatile boolean running = true;
 
-    public OrderConsumer(BlockingQueue<Order> queue,
+    public OrderConsumer(String consumerId,
+                         BlockingQueue<Order> queue,
                          ExecutorService workerPool,
                          PaymentService paymentService,
                          InventoryManager inventoryManager,
                          DatabaseManager db) {
+        this.consumerId       = consumerId;
         this.queue            = queue;
         this.workerPool       = workerPool;
         this.paymentService   = paymentService;
@@ -38,22 +40,20 @@ public class OrderConsumer implements Runnable {
 
     @Override
     public void run() {
-        log.info("OrderConsumer started.");
-
+        log.info("[{}] started.", consumerId);
         while (running) {
             try {
                 Order order = queue.poll(500, TimeUnit.MILLISECONDS);
                 if (order == null) continue;
+
                 if (order.getProductId().equals(POISON_PILL.getProductId())) {
-                    log.info("Poison pill received - consumer shutting down.");
+                    log.info("[{}] Poison pill received - shutting down.", consumerId);
                     running = false;
                     break;
                 }
+
                 workerPool.submit(new OrderProcessor(
-                        order,
-                        paymentService,
-                        inventoryManager,
-                        db
+                        order, paymentService, inventoryManager, db
                 ));
 
             } catch (InterruptedException e) {
@@ -61,11 +61,12 @@ public class OrderConsumer implements Runnable {
                 running = false;
             }
         }
-
-        log.info("OrderConsumer stopped.");
+        log.info("[{}] stopped.", consumerId);
     }
 
-    public void stop() {
-        running = false;
+    public void stop()
+    {
+         running = false;
+
     }
 }
