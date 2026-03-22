@@ -8,13 +8,17 @@ import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class OrderProducer implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(OrderProducer.class);
 
     private static final String[] PRODUCTS = {"P001", "P002", "P003", "P004", "P005"};
-    private static final Random   RANDOM   = new Random();
+
+    //making it thread safe for multiple producers to generate orders with random products and quantities
+
+    //private static final Random   RANDOM   = new Random();
 
     private final String name;
     private final BlockingQueue<Order> queue;
@@ -72,10 +76,11 @@ public class OrderProducer implements Runnable {
             Thread.currentThread().interrupt();
         }
     }
-
+    
+    //using thread local random to avoid contention between multiple producer threads when generating random products and quantities
     private Order createOrder() {
-        String product  = PRODUCTS[RANDOM.nextInt(PRODUCTS.length)];
-        int    quantity = 1 + RANDOM.nextInt(5);
-        return new Order(product, quantity);
-    }
+    String product  = PRODUCTS[ThreadLocalRandom.current().nextInt(PRODUCTS.length)];
+    int quantity = 1 + ThreadLocalRandom.current().nextInt(5);
+    return new Order(product, quantity);
+}
 }
